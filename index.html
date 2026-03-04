@@ -677,7 +677,7 @@
   });
 
   // Form submission
-  function handleSubmit() {
+ function handleSubmit() {
   const form = document.getElementById('theForm');
   const success = document.getElementById('successMsg');
 
@@ -692,6 +692,20 @@
     return;
   }
 
+  form.style.opacity = '0';
+  form.style.transition = 'opacity 0.4s ease';
+
+  setTimeout(() => {
+    form.style.display = 'none';
+    if (success) {
+      success.style.display = 'block';
+      success.style.opacity = '1';
+    }
+    alert("Submit works. Next we reconnect GHL.");
+  }, 400);
+}
+
+  }
   // TEMP: prove submit works first
   form.style.opacity = '0';
   form.style.transition = 'opacity 0.4s ease';
@@ -722,7 +736,7 @@
       success.style.transition = 'opacity 0.5s ease';
       requestAnimationFrame(() => { success.style.opacity = '1'; });
     }, 400);
-  })
+  }
   .catch((err) => {
     console.error(err);
     alert("Submit failed. Open console and send me the error.");
@@ -771,8 +785,7 @@ const payload = {
 
     alert("Submitted successfully!");
     form.reset();
-  });
-});
+  }
 </script>
 
 </body>

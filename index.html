@@ -678,14 +678,50 @@
 
   // Form submission
   function handleSubmit() {
-    const form = document.getElementById('theForm');
-    const success = document.getElementById('successMsg');
-    // Basic check for required fields
-    const name = form.querySelector('input[type="text"]').value;
-    const email = form.querySelector('input[type="email"]').value;
-    if (!name || !email) {
-      alert('Please fill in your name and email to continue.');
-      return;
+    function handleSubmit() {
+  const form = document.getElementById('theForm');
+  const success = document.getElementById('successMsg');
+
+  const name = form.querySelector('input[type="text"]')?.value || "";
+  const email = form.querySelector('input[type="email"]')?.value || "";
+  const phone = form.querySelector('input[type="tel"]')?.value || "";
+
+  if (!name || !email) {
+    alert('Please fill in your name and email to continue.');
+    return;
+  }
+
+  const payload = {
+    first_name: name,
+    last_name: "",
+    email: email,
+    phone: phone
+  };
+
+  fetch("https://services.leadconnectorhq.com/hooks/EQeSJzf0NMDoeyzhnN3j/webhook-trigger/b8a58028-aafd-42b1-91eb-1e153c9b8097", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then((res) => {
+    if (!res.ok) throw new Error("Webhook failed: " + res.status);
+
+    form.style.opacity = '0';
+    form.style.transition = 'opacity 0.4s ease';
+    setTimeout(() => {
+      form.style.display = 'none';
+      success.style.display = 'block';
+      success.style.opacity = '0';
+      success.style.transition = 'opacity 0.5s ease';
+      requestAnimationFrame(() => { success.style.opacity = '1'; });
+    }, 400);
+  })
+  .catch((err) => {
+    console.error(err);
+    alert("Submit failed. Open console and send me the error.");
+  });
+}
+
     }
     form.style.opacity = '0';
     form.style.transition = 'opacity 0.4s ease';
@@ -700,7 +736,8 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
+  const form = document.querySelector("#consultForm");
+
   if (!form) return;
 
   form.addEventListener("submit", async (e) => {

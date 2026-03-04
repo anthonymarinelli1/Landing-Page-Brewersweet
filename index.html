@@ -678,25 +678,32 @@
 
   // Form submission
   function handleSubmit() {
-    function handleSubmit() {
   const form = document.getElementById('theForm');
   const success = document.getElementById('successMsg');
 
-  const name = form.querySelector('input[type="text"]')?.value || "";
-  const email = form.querySelector('input[type="email"]')?.value || "";
-  const phone = form.querySelector('input[type="tel"]')?.value || "";
+  if (!form) { alert("Form not found"); return; }
+
+  const name = form.querySelector('input[type="text"]')?.value?.trim() || "";
+  const email = form.querySelector('input[type="email"]')?.value?.trim() || "";
+  const phone = form.querySelector('input[type="tel"]')?.value?.trim() || "";
 
   if (!name || !email) {
     alert('Please fill in your name and email to continue.');
     return;
   }
 
-  const payload = {
-    first_name: name,
-    last_name: "",
-    email: email,
-    phone: phone
-  };
+  // TEMP: prove submit works first
+  form.style.opacity = '0';
+  form.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => {
+    form.style.display = 'none';
+    if (success) {
+      success.style.display = 'block';
+      success.style.opacity = '1';
+    }
+    alert("Submit works. Next we reconnect GHL.");
+  }, 400);
+}
 
   fetch("https://services.leadconnectorhq.com/hooks/EQeSJzf0NMDoeyzhnN3j/webhook-trigger/b8a58028-aafd-42b1-91eb-1e153c9b8097", {
     method: "POST",

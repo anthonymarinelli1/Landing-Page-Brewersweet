@@ -706,12 +706,18 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const payload = {
-      first_name: form.querySelector('[name="first_name"]')?.value || "",
-      last_name: form.querySelector('[name="last_name"]')?.value || "",
-      email: form.querySelector('[name="email"]')?.value || "",
-      phone: form.querySelector('[name="phone"]')?.value || ""
-    };
+    const fullName =
+  form.querySelector('[name="full_name"]')?.value ||
+  form.querySelector('[name="name"]')?.value ||
+  "";
+
+const payload = {
+  first_name: fullName,
+  last_name: "",
+  email: form.querySelector('[name="email"]')?.value || "",
+  phone: form.querySelector('[name="phone"]')?.value || ""
+};
+
 
     await fetch("https://services.leadconnectorhq.com/hooks/EQeSJzf0NMDoeyzhnN3j/webhook-trigger/b8a58028-aafd-42b1-91eb-1e153c9b8097", {
       method: "POST",

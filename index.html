@@ -683,7 +683,10 @@
 
     if (!form) { alert("Form not found"); return; }
 
-    const name = form.querySelector('input[type="text"]')?.value?.trim() || "";
+    const fullName = form.querySelector('input[type="text"]')?.value?.trim() || "";
+    const nameParts = fullName.split(' ');
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(' ') || "";
     const email = form.querySelector('input[type="email"]')?.value?.trim() || "";
     const phone = form.querySelector('input[type="tel"]')?.value?.trim() || "";
     const location = form.querySelectorAll('input[type="text"]')[1]?.value?.trim() || "";
@@ -693,13 +696,14 @@
     const message = form.querySelector('textarea')?.value?.trim() || "";
     const referral = [...form.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value).join(', ');
 
-    if (!name || !email) {
+    if (!fullName || !email) {
       alert('Please fill in your name and email to continue.');
       return;
     }
 
     const payload = {
-      firstName: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phone,
       location: location,
